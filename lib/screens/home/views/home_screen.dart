@@ -1,3 +1,4 @@
+import 'package:expenses_app/screens/add/add.dart';
 import 'package:expenses_app/screens/graphs/graphs_screen.dart';
 import 'package:expenses_app/screens/home/views/main_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: (value) {
               setState(() {
                 barIndex = value;
-                print(barIndex);
+                //print(barIndex);
               });
               ;
             },
@@ -68,7 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const AddTransaction(),
+                ));
+          },
           shape: const CircleBorder(),
           child: Container(
               width: 60,
