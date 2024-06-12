@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var widgetList = [MainScreen(), GraphsScreen()];
+  var widgetList = [MainScreen(), Placeholder(), GraphsScreen(), Placeholder()];
 
   int barIndex = 0;
   Color selectedItemColor = Colors.blueAccent;
@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //appBar: AppBar(),
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
           child: BottomNavigationBar(
@@ -30,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: (value) {
               setState(() {
                 barIndex = value;
-                //print(barIndex);
               });
-              ;
             },
             showSelectedLabels: false,
             showUnselectedLabels: false,
@@ -51,19 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: barIndex == 1
                           ? selectedItemColor
                           : unselectedItemColor),
-                  label: 'Categories'),
+                  label: 'Calendar'),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.chart_bar_square,
                       color: barIndex == 2
                           ? selectedItemColor
                           : unselectedItemColor),
-                  label: 'Categories'),
+                  label: 'Charts'),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.gear,
                       color: barIndex == 3
                           ? selectedItemColor
                           : unselectedItemColor),
-                  label: 'Data')
+                  label: 'Settings')
             ],
           ),
         ),
@@ -91,12 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
               child: const Icon(CupertinoIcons.add)),
         ),
-        body: switch (barIndex) {
-          0 => MainScreen(),
-          1 => Placeholder(),
-          2 => GraphsScreen(),
-          3 => Placeholder(),
-          _ => MainScreen(),
-        });
+        body: widgetList[barIndex]);
   }
 }

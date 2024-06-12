@@ -1,8 +1,11 @@
 import 'dart:ui';
 
-import 'package:expenses_app/data/data.dart';
+// import 'package:expenses_app/data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:expenses_app/models/expense_model.dart';
+import 'package:expenses_app/screens/edit_transactions.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -22,31 +25,10 @@ class MainScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        Icon(
-                          CupertinoIcons.person_solid,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hello Username!',
+                        Text('Welcome!',
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -57,7 +39,8 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.bell))
+                IconButton(
+                    onPressed: () {}, icon: const Icon(CupertinoIcons.bell))
               ],
             ),
             const SizedBox(height: 20.0),
@@ -79,103 +62,31 @@ class MainScreen extends StatelessWidget {
                           color: Colors.grey.shade300,
                           offset: const Offset(5, 5))
                     ]),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Your Balance',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(' \$4000.00',
-                        style: TextStyle(
+                child: Consumer<ExpenseModel>(
+                  builder: (context, transactionModel, child) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Your Balance',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          '\$${transactionModel.totalBalance.toStringAsFixed(2)}',
+                          style: const TextStyle(
                             fontSize: 50,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 12),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                          CupertinoIcons.arrowtriangle_up_fill,
-                                          size: 12,
-                                          color: Colors.greenAccent),
-                                    )),
-                                const SizedBox(width: 10),
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Income',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400)),
-                                    Text('\$250000',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                          CupertinoIcons
-                                              .arrowtriangle_down_fill,
-                                          size: 12,
-                                          color: Colors.redAccent),
-                                    )),
-                                const SizedBox(width: 10),
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Expenses',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400)),
-                                    Text('\$60000',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ))
-                  ],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 )),
-            const SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -198,75 +109,36 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                  itemCount: transactionData.length,
-                  itemBuilder: (context, int i) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                color: transactionData[i].color,
-                                                shape: BoxShape.circle)),
-                                        Icon(
-                                          transactionData[i].icon,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(transactionData[i].name,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(transactionData[i].totalAmount,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                    Text(transactionData[i].category,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .outline,
-                                          fontWeight: FontWeight.w400,
-                                        ))
-                                  ],
-                                )
-                              ],
+              child: Consumer<ExpenseModel>(
+                builder: (context, transactionModel, child) {
+                  return ListView.builder(
+                    itemCount: transactionModel.transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactionModel.transactions[index];
+                      return ListTile(
+                        leading: Icon(transaction.category.icon,
+                            color: transaction.category.color),
+                        title: Text(transaction.name),
+                        subtitle: Text(transaction.category.name),
+                        trailing: Text(
+                            '\$${transaction.totalAmount.toStringAsFixed(2)}'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditTransactionScreen(
+                                transaction: transaction,
+                                index: index,
+                              ),
                             ),
-                          )),
-                    );
-                  }),
-            )
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

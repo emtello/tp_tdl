@@ -1,55 +1,32 @@
+// import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Transaction {
-  final IconData icon;
+class Category {
   final String name;
   final Color color;
-  final String totalAmount;
-  final String date;
-  final String category;
+  final IconData icon;
+  double totalAmount;
 
-  Transaction({
-    required this.icon,
+  Category({
     required this.name,
     required this.color,
+    required this.icon,
+    this.totalAmount = 0.0,
+  });
+}
+
+class Transaction {
+  final String name;
+  final double totalAmount;
+  final String date;
+  final Category category;
+
+  Transaction({
+    required this.name,
     required this.totalAmount,
     required this.date,
     required this.category,
   });
 }
-
-List<Transaction> transactionData = [
-  Transaction(
-    icon: CupertinoIcons.table,
-    name: 'Food',
-    color: Colors.purple,
-    totalAmount: '-5500.00',
-    date: 'today',
-    category: 'Food',
-  ),
-  Transaction(
-    icon: CupertinoIcons.shopping_cart,
-    name: 'Shopping',
-    color: Colors.indigo,
-    totalAmount: '-6000.00',
-    date: 'today',
-    category: 'Clothing',
-  ),
-  Transaction(
-    icon: CupertinoIcons.car,
-    name: 'Gas',
-    color: Colors.yellow,
-    totalAmount: '-7000.00',
-    date: 'today',
-    category: 'Transportation',
-  ),
-  Transaction(
-    icon: CupertinoIcons.heart_fill,
-    name: 'Gym',
-    color: Colors.deepOrange,
-    totalAmount: '-2000.00',
-    date: 'today',
-    category: 'Personal',
-  ),
-];
