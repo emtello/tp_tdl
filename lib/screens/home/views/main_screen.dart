@@ -30,7 +30,7 @@ class MainScreen extends StatelessWidget {
                       children: [
                         Text('Welcome!',
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context)
                                     .colorScheme
@@ -119,7 +119,8 @@ class MainScreen extends StatelessWidget {
                         leading: Icon(transaction.category.icon,
                             color: transaction.category.color),
                         title: Text(transaction.name),
-                        subtitle: Text(transaction.category.name),
+                        subtitle: Text(
+                            '${transaction.category.name}\n${transaction.date.year}/${transaction.date.month}/${transaction.date.day}'),
                         trailing: Text(
                             '\$${transaction.totalAmount.toStringAsFixed(2)}'),
                         onTap: () {

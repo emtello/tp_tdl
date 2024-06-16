@@ -20,7 +20,7 @@ class Category {
 class Transaction {
   final String name;
   final double totalAmount;
-  final String date;
+  final DateTime date;
   final Category category;
 
   Transaction({

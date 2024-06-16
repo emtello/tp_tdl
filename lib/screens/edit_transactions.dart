@@ -1,6 +1,5 @@
 import 'package:expenses_app/data/data.dart';
 import 'package:expenses_app/models/expense_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +22,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   late String _name;
   late double _amount;
   late String _category;
+  late DateTime _date;
 
   @override
   void initState() {
@@ -30,6 +30,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     _name = widget.transaction.name;
     _amount = widget.transaction.totalAmount;
     _category = widget.transaction.category.name;
+    _date = widget.transaction.date;
   }
 
   @override
@@ -123,6 +124,32 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   _category = value!;
                 },
               ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Date: ${DateTime.now().year == _date.year && DateTime.now().month == _date.month && DateTime.now().day == _date.day ? "Today" : "${_date.year}/${_date.month}/${_date.day}"}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.calendar_today),
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: _date,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      );
+                      if (pickedDate != null && pickedDate != _date) {
+                        setState(() {
+                          _date = pickedDate;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
@@ -131,7 +158,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     final updatedTransaction = Transaction(
                       name: _name,
                       totalAmount: _amount,
-                      date: widget.transaction.date,
+                      date: _date,
                       category: Provider.of<ExpenseModel>(context,
                               listen: false)
                           .categories

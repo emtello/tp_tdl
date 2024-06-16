@@ -2,7 +2,6 @@ import 'package:expenses_app/models/expense_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:expenses_app/data/data.dart';
 
 class GraphsScreen extends StatelessWidget {
   const GraphsScreen({super.key});
@@ -15,12 +14,14 @@ class GraphsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Analytics',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )),
-            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text('Analytics',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
             Expanded(
               child: Consumer<ExpenseModel>(
                 builder: (context, expenseModel, child) {
@@ -69,17 +70,27 @@ class GraphsScreen extends StatelessWidget {
                       ),
                       Container(
                         height: 250,
-                        child: ListView.builder(
-                          itemCount: expenseModel.categories.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Icon(Icons.circle,
-                                  color: expenseModel.categories[index].color),
-                              title: Text(expenseModel.categories[index].name),
-                            );
-                          },
+                        child: Wrap(
+                          spacing: 5.0,
+                          runSpacing: 2.0,
+                          children: List<Widget>.generate(
+                            expenseModel.categories.length,
+                            (index) {
+                              return Chip(
+                                avatar: CircleAvatar(
+                                  backgroundColor:
+                                      expenseModel.categories[index].color,
+                                ),
+                                label:
+                                    Text(expenseModel.categories[index].name),
+                              );
+                            },
+                          ),
                         ),
                       ),
+                      // Expanded(
+                      //   // grafico de los meses
+                      // ),
                     ],
                   );
                 },
