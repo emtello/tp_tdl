@@ -6,7 +6,7 @@ class ExpenseModel with ChangeNotifier {
   List<Category> categoriesList = [
     Category(name: 'Food', color: Colors.blue, icon: Icons.fastfood),
     Category(name: 'Clothing', color: Colors.purple, icon: Icons.shopping_bag),
-    Category(name: 'Transportation', color: Colors.yellow, icon: Icons.train),
+    Category(name: 'Transport', color: Colors.yellow, icon: Icons.train),
     Category(name: 'Personal', color: Colors.deepOrange, icon: Icons.person),
   ];
 
@@ -44,5 +44,31 @@ class ExpenseModel with ChangeNotifier {
 
     transactionsList[index] = updatedTransaction;
     notifyListeners();
+  }
+
+  // double get monthlyTotal {
+  //   var now = DateTime.now();
+  //   return transactionsList
+  //       .where((transaction) =>
+  //           transaction.date.month == now.month &&
+  //           transaction.date.year == now.year)
+  //       .fold(0.0, (sum, item) => sum + item.totalAmount);
+  // }
+
+  // double monthlyTotalByCategory(Category category) {
+  //   var now = DateTime.now();
+  //   return transactionsList
+  //       .where((transaction) =>
+  //           transaction.date.month == now.month &&
+  //           transaction.date.year == now.year &&
+  //           transaction.category.name == category.name)
+  //       .fold(0.0, (sum, item) => sum + item.totalAmount);
+  // }
+
+  double monthlyTotal(int month, int year) {
+    return transactionsList
+        .where((transaction) =>
+            transaction.date.month == month && transaction.date.year == year)
+        .fold(0.0, (sum, item) => sum + item.totalAmount);
   }
 }
