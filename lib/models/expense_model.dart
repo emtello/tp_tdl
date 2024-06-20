@@ -71,4 +71,13 @@ class ExpenseModel with ChangeNotifier {
             transaction.date.month == month && transaction.date.year == year)
         .fold(0.0, (sum, item) => sum + item.totalAmount);
   }
+
+  double monthlyTotalByCategory(Category category, int month, int year) {
+    return transactionsList
+        .where((transaction) =>
+            transaction.date.month == month &&
+            transaction.date.year == year &&
+            transaction.category.name == category.name)
+        .fold(0.0, (sum, item) => sum + item.totalAmount);
+  }
 }

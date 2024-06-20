@@ -10,14 +10,32 @@ class MonthlyBarChart extends StatelessWidget {
     final currentYear = DateTime.now().year;
 
     List<BarChartGroupData> barGroups = List.generate(6, (i) {
-      final total = expenseModel.monthlyTotal(i + 1, currentYear);
+      List<BarChartRodStackItem> rodStackItems = [];
+      double runningTotal = 0.0;
+
+      expenseModel.categories.forEach((category) {
+        double categoryTotal =
+            expenseModel.monthlyTotalByCategory(category, i + 1, currentYear);
+        rodStackItems.add(BarChartRodStackItem(
+          runningTotal,
+          runningTotal + categoryTotal,
+          category.color,
+        ));
+        runningTotal += categoryTotal;
+      });
+
       return BarChartGroupData(
         x: i,
         barRods: [
           BarChartRodData(
-            toY: total,
+            toY: runningTotal,
             color: Colors.blue,
-            width: 16,
+            width: 20,
+            rodStackItems: rodStackItems,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.zero,
+              topRight: Radius.zero,
+            ),
           ),
         ],
       );
@@ -42,7 +60,7 @@ class MonthlyBarChart extends StatelessWidget {
                 show: true,
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
-                    reservedSize: 30,
+                    reservedSize: 32,
                     showTitles: true,
                     getTitlesWidget: (double value, TitleMeta meta) {
                       return SideTitleWidget(

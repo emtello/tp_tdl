@@ -1,6 +1,7 @@
 import 'package:expenses_app/screens/add/add.dart';
-import 'package:expenses_app/screens/graphs/graphs_screen.dart';
+import 'package:expenses_app/screens/home/views/graphs_screen.dart';
 import 'package:expenses_app/screens/home/views/main_screen.dart';
+import 'package:expenses_app/screens/home/views/calendar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -13,7 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var widgetList = [MainScreen(), Placeholder(), GraphsScreen(), Placeholder()];
+  var widgetList = [
+    MainScreen(),
+    CalendarView(),
+    GraphsScreen(),
+    Placeholder()
+  ];
 
   int barIndex = 0;
   Color selectedItemColor = Colors.blueAccent;
