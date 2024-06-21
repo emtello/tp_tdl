@@ -19,29 +19,15 @@ class MainScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Welcome!',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground)),
-                      ],
-                    ),
-                  ],
-                ),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(CupertinoIcons.bell))
-              ],
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('Welcome!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             const SizedBox(height: 20.0),
             Container(
@@ -56,11 +42,12 @@ class MainScreen extends StatelessWidget {
                       transform: const GradientRotation(math.pi / 2),
                     ),
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.grey.shade300,
-                          offset: const Offset(5, 5))
+                        color: Colors.grey,
+                        offset: Offset(0.0, 5.0),
+                        blurRadius: 5.0,
+                      ),
                     ]),
                 child: Consumer<ExpenseModel>(
                   builder: (context, transactionModel, child) {

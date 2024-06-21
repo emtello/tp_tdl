@@ -46,53 +46,85 @@ class _CalendarViewState extends State<CalendarView> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
-            const SizedBox(height: 20.0),
-            TableCalendar(
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: _focusedDay,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = DateTime(
-                    selectedDay.year,
-                    selectedDay.month,
-                    selectedDay.day,
-                  );
-                  _focusedDay = focusedDay;
+            const SizedBox(height: 15.0),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 3.0),
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+              child: TableCalendar(
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
+                focusedDay: _focusedDay,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = DateTime(
+                      selectedDay.year,
+                      selectedDay.month,
+                      selectedDay.day,
+                    );
+                    _focusedDay = focusedDay;
 
-                  DateTime selectedDayWithoutTimezone = DateTime(
-                    _selectedDay.year,
-                    _selectedDay.month,
-                    _selectedDay.day,
-                  );
+                    DateTime selectedDayWithoutTimezone = DateTime(
+                      _selectedDay.year,
+                      _selectedDay.month,
+                      _selectedDay.day,
+                    );
 
-                  _selectedEvents = _events[selectedDayWithoutTimezone] ?? [];
-                });
-              },
-              calendarFormat: _calendarFormat,
-              availableCalendarFormats: const {
-                CalendarFormat.month: 'Month',
-                CalendarFormat.week: 'Week',
-              },
-              onFormatChanged: (format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              },
-              eventLoader: (day) {
-                // Adjust the day for comparison
-                DateTime dayWithoutTimezone = DateTime(
-                  day.year,
-                  day.month,
-                  day.day,
-                );
-                return _events[dayWithoutTimezone] ?? [];
-              },
+                    _selectedEvents = _events[selectedDayWithoutTimezone] ?? [];
+                  });
+                },
+                calendarFormat: _calendarFormat,
+                availableCalendarFormats: const {
+                  CalendarFormat.month: 'Month',
+                  CalendarFormat.week: 'Week',
+                },
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                rowHeight: 50.0,
+                calendarStyle: CalendarStyle(
+                  markerDecoration: BoxDecoration(
+                    color: Color.fromARGB(255, 54, 72, 142),
+                    shape: BoxShape.circle,
+                  ),
+                  todayDecoration: BoxDecoration(
+                    color: Color.fromARGB(255, 54, 72, 142),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                eventLoader: (day) {
+                  DateTime dayWithoutTimezone = DateTime(
+                    day.year,
+                    day.month,
+                    day.day,
+                  );
+                  return _events[dayWithoutTimezone] ?? [];
+                },
+              ),
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 20.0),
+            Text(
+              _selectedEvents.isEmpty
+                  ? 'No transactions on ${_selectedDay.toString().substring(0, 10).split('-').join('/')}'
+                  : 'Transactions on ${_selectedDay.toString().substring(0, 10)}',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: _selectedEvents.length,
