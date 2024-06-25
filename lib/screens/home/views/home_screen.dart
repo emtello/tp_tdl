@@ -1,7 +1,7 @@
 import 'package:expenses_app/screens/add/add.dart';
 import 'package:expenses_app/screens/home/views/graphs_screen.dart';
 import 'package:expenses_app/screens/home/views/main_screen.dart';
-import 'package:expenses_app/screens/home/views/calendar_view.dart';
+import 'package:expenses_app/screens/home/views/calendar_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -15,10 +15,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var widgetList = [
-    MainScreen(),
-    CalendarView(),
-    GraphsScreen(),
-    Placeholder()
+    const MainScreen(),
+    const CalendarScreen(),
+    const GraphsScreen(),
+    const Placeholder()
   ];
 
   int barIndex = 0;

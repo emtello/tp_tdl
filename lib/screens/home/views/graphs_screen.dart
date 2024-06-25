@@ -7,15 +7,15 @@ class GraphsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Text('Analytics',
+              padding: EdgeInsets.all(8.0),
+              child: Text('Analytics',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -24,7 +24,7 @@ class GraphsScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  const CategoryPieChart(),
+                  CategoryPieChart(),
                   Expanded(
                     child: MonthlyBarChart(),
                   ),

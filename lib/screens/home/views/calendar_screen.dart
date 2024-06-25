@@ -1,19 +1,18 @@
 import 'package:expenses_app/data/data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:expenses_app/models/expense_model.dart';
-import 'package:expenses_app/screens/edit_transactions.dart';
+import 'package:expenses_app/screens/add/edit_transactions.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarView extends StatefulWidget {
-  const CalendarView({Key? key}) : super(key: key);
+class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
 
   @override
-  _CalendarViewState createState() => _CalendarViewState();
+  State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarViewState extends State<CalendarView> {
+class _CalendarScreenState extends State<CalendarScreen> {
   late Map<DateTime, List> _events;
   late List _selectedEvents;
   DateTime _focusedDay = DateTime.now();
@@ -95,7 +94,7 @@ class _CalendarViewState extends State<CalendarView> {
                   });
                 },
                 rowHeight: 50.0,
-                calendarStyle: CalendarStyle(
+                calendarStyle: const CalendarStyle(
                   markerDecoration: BoxDecoration(
                     color: Color.fromARGB(255, 54, 72, 142),
                     shape: BoxShape.circle,
@@ -119,8 +118,8 @@ class _CalendarViewState extends State<CalendarView> {
             Text(
               _selectedEvents.isEmpty
                   ? 'No transactions on ${_selectedDay.toString().substring(0, 10).split('-').join('/')}'
-                  : 'Transactions on ${_selectedDay.toString().substring(0, 10)}',
-              style: TextStyle(
+                  : 'Transactions on ${_selectedDay.toString().substring(0, 10).split('-').join('/')}',
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),

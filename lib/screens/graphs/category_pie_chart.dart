@@ -38,7 +38,7 @@ class CategoryPieChart extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            Container(
+            SizedBox(
               height: 250,
               child: PieChart(
                 PieChartData(
@@ -53,11 +53,11 @@ class CategoryPieChart extends StatelessWidget {
                         PieTouchResponse? touchResponse) {},
                   ),
                 ),
-                swapAnimationDuration: Duration(milliseconds: 150),
+                swapAnimationDuration: const Duration(milliseconds: 150),
                 swapAnimationCurve: Curves.linear,
               ),
             ),
-            Container(
+            SizedBox(
               height: 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,

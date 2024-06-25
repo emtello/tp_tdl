@@ -14,7 +14,7 @@ class EditTransactionScreen extends StatefulWidget {
   });
 
   @override
-  _EditTransactionScreenState createState() => _EditTransactionScreenState();
+  State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
 
 class _EditTransactionScreenState extends State<EditTransactionScreen> {
@@ -81,7 +81,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             children: [
               TextFormField(
                 initialValue: _name,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -94,7 +94,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               TextFormField(
                 initialValue: _amount.toString(),
-                decoration: InputDecoration(labelText: 'Amount'),
+                decoration: const InputDecoration(labelText: 'Amount'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -111,7 +111,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               DropdownButtonFormField<String>(
                 value: _category,
-                decoration: InputDecoration(labelText: 'Category'),
+                decoration: const InputDecoration(labelText: 'Category'),
                 items: Provider.of<ExpenseModel>(context, listen: false)
                     .categories
                     .map((Category category) {
@@ -129,11 +129,11 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   Expanded(
                     child: Text(
                       'Date: ${DateTime.now().year == _date.year && DateTime.now().month == _date.month && DateTime.now().day == _date.day ? "Today" : "${_date.year}/${_date.month}/${_date.day}"}',
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.calendar_today),
+                    icon: const Icon(Icons.calendar_today),
                     onPressed: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -150,7 +150,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

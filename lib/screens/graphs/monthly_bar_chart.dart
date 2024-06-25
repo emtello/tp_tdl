@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:expenses_app/models/expense_model.dart';
 
 class MonthlyBarChart extends StatelessWidget {
+  const MonthlyBarChart({super.key});
+
   @override
   Widget build(BuildContext context) {
     final expenseModel = Provider.of<ExpenseModel>(context);
@@ -13,7 +15,7 @@ class MonthlyBarChart extends StatelessWidget {
       List<BarChartRodStackItem> rodStackItems = [];
       double runningTotal = 0.0;
 
-      expenseModel.categories.forEach((category) {
+      for (var category in expenseModel.categories) {
         double categoryTotal =
             expenseModel.monthlyTotalByCategory(category, i + 1, currentYear);
         rodStackItems.add(BarChartRodStackItem(
@@ -22,7 +24,7 @@ class MonthlyBarChart extends StatelessWidget {
           category.color,
         ));
         runningTotal += categoryTotal;
-      });
+      }
 
       return BarChartGroupData(
         x: i,
@@ -70,12 +72,11 @@ class MonthlyBarChart extends StatelessWidget {
                     },
                   ),
                 ),
-                topTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: false), // Hide top titles
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
                 ),
-                rightTitles: AxisTitles(
-                  sideTitles:
-                      SideTitles(showTitles: false), // Hide right titles
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(

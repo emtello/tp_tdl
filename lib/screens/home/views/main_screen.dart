@@ -1,14 +1,9 @@
-import 'dart:ui';
-
-// import 'package:expenses_app/data/data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:expenses_app/models/expense_model.dart';
-import 'package:expenses_app/screens/edit_transactions.dart';
+import 'package:expenses_app/screens/add/edit_transactions.dart';
+import 'package:expenses_app/screens/transactions/all_transactions.dart';
 import 'dart:math' as math;
-
-import 'package:flutter/widgets.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -84,7 +79,14 @@ class MainScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     )),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AllTransactionsScreen(),
+                      ),
+                    );
+                  },
                   child: Text('View All',
                       style: TextStyle(
                         fontSize: 16,
@@ -98,10 +100,12 @@ class MainScreen extends StatelessWidget {
             Expanded(
               child: Consumer<ExpenseModel>(
                 builder: (context, transactionModel, child) {
+                  var recentTransactions =
+                      transactionModel.transactions.reversed.take(5).toList();
                   return ListView.builder(
-                    itemCount: transactionModel.transactions.length,
+                    itemCount: recentTransactions.length,
                     itemBuilder: (context, index) {
-                      final transaction = transactionModel.transactions[index];
+                      final transaction = recentTransactions[index];
                       return ListTile(
                         leading: Icon(transaction.category.icon,
                             color: transaction.category.color),

@@ -7,7 +7,7 @@ class AddTransaction extends StatefulWidget {
   const AddTransaction({super.key});
 
   @override
-  _AddTransactionState createState() => _AddTransactionState();
+  State<AddTransaction> createState() => _AddTransactionState();
 }
 
 class _AddTransactionState extends State<AddTransaction> {
@@ -28,7 +28,7 @@ class _AddTransactionState extends State<AddTransaction> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text('Add Transaction'),
+        title: const Text('Add Transaction'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,17 +86,17 @@ class _AddTransactionState extends State<AddTransaction> {
                   );
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
                     child: Text(
                       'Date: ${DateTime.now().year == _date.year && DateTime.now().month == _date.month && DateTime.now().day == _date.day ? "Today" : "${_date.year}/${_date.month}/${_date.day}"}',
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.calendar_today),
+                    icon: const Icon(Icons.calendar_today),
                     onPressed: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,

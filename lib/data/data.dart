@@ -1,6 +1,3 @@
-// import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Category {
@@ -30,3 +27,10 @@ class Transaction {
     required this.category,
   });
 }
+
+List<Category> categoriesList = [
+  Category(name: 'Food', color: Colors.blue, icon: Icons.fastfood),
+  Category(name: 'Personal', color: Colors.deepOrange, icon: Icons.person),
+  Category(name: 'Clothing', color: Colors.purple, icon: Icons.shopping_bag),
+  Category(name: 'Transport', color: Colors.yellow, icon: Icons.train),
+];
