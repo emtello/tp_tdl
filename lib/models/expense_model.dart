@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:expenses_app/data/data.dart';
+import 'dart:io';
+import 'package:csv/csv.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
 class ExpenseModel with ChangeNotifier {
   List<Transaction> transactionsList = [];
@@ -54,5 +58,29 @@ class ExpenseModel with ChangeNotifier {
             transaction.date.year == year &&
             transaction.category.name == category.name)
         .fold(0.0, (sum, item) => sum + item.totalAmount);
+  }
+
+  //For exporting
+
+  static Future<void> exportToCSV(List<Transaction> transactions) async {
+    List<List<String>> data = [
+      ['Name', 'Amount', 'Date', 'Category']
+    ];
+
+    for (var transaction in transactions) {
+      data.add([
+        transaction.name,
+        transaction.totalAmount.toString(),
+        DateFormat('dd/M/yy').format(transaction.date),
+        transaction.category.name
+      ]);
+    }
+
+    String csvData = const ListToCsvConverter().convert(data);
+
+    final directory = await getExternalStorageDirectory();
+    final path = "${directory!.path}/transactions.csv";
+    final file = File(path);
+    await file.writeAsString(csvData);
   }
 }
