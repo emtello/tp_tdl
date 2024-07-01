@@ -11,7 +11,7 @@ class ExportDataScreen extends StatefulWidget {
 }
 
 class _ExportDataScreenState extends State<ExportDataScreen> {
-  DateTime fromDate = DateTime.now().subtract(Duration(days: 30));
+  DateTime fromDate = DateTime.now().subtract(const Duration(days: 30));
   DateTime toDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context, bool isFromDate) async {
