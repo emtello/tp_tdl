@@ -1,42 +1,86 @@
+import 'package:expenses_app/data/data.dart';
+import 'package:expenses_app/models/expense_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:expenses_app/models/expense_model.dart';
-import 'package:expenses_app/data/data.dart';
 
-class AddTransaction extends StatefulWidget {
-  const AddTransaction({super.key});
+class EditTransactionScreen extends StatefulWidget {
+  final Transaction transaction;
+  final int index;
+
+  const EditTransactionScreen({
+    super.key,
+    required this.transaction,
+    required this.index,
+  });
 
   @override
-  State<AddTransaction> createState() => _AddTransactionState();
+  State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
 
-class _AddTransactionState extends State<AddTransaction> {
+class _EditTransactionScreenState extends State<EditTransactionScreen> {
   final _formKey = GlobalKey<FormState>();
   late String _name;
   late double _amount;
-  late Category _category;
+  late String _category;
   late DateTime _date;
 
   @override
   void initState() {
     super.initState();
-    _date = DateTime.now();
+    _name = widget.transaction.name;
+    _amount = widget.transaction.totalAmount;
+    _category = widget.transaction.category.name;
+    _date = widget.transaction.date;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text('Add Transaction'),
+        title: const Text('Edit Transaction'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Delete Transaction'),
+                    content: const Text(
+                        'Are you sure you want to delete this transaction?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Provider.of<ExpenseModel>(context, listen: false)
+                              .removeTransaction(widget.index);
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Delete'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
+            children: [
               TextFormField(
+                initialValue: _name,
                 decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -49,6 +93,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 },
               ),
               TextFormField(
+                initialValue: _amount.toString(),
                 decoration: const InputDecoration(labelText: 'Amount'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -64,29 +109,21 @@ class _AddTransactionState extends State<AddTransaction> {
                   _amount = double.parse(value!);
                 },
               ),
-              Consumer<ExpenseModel>(
-                builder: (context, expenseModel, child) {
-                  return DropdownButtonFormField<Category>(
-                    decoration: const InputDecoration(labelText: 'Category'),
-                    items: expenseModel.categories.map((Category category) {
-                      return DropdownMenuItem<Category>(
-                        value: category,
-                        child: Text(category.name),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      _category = value!;
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select a category';
-                      }
-                      return null;
-                    },
+              DropdownButtonFormField<String>(
+                value: _category,
+                decoration: const InputDecoration(labelText: 'Category'),
+                items: Provider.of<ExpenseModel>(context, listen: false)
+                    .categories
+                    .map((Category category) {
+                  return DropdownMenuItem<String>(
+                    value: category.name,
+                    child: Text(category.name),
                   );
+                }).toList(),
+                onChanged: (value) {
+                  _category = value!;
                 },
               ),
-              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -118,18 +155,21 @@ class _AddTransactionState extends State<AddTransaction> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    final newTransaction = Transaction(
+                    final updatedTransaction = Transaction(
                       name: _name,
                       totalAmount: _amount,
                       date: _date,
-                      category: _category,
+                      category: Provider.of<ExpenseModel>(context,
+                              listen: false)
+                          .categories
+                          .firstWhere((category) => category.name == _category),
                     );
                     Provider.of<ExpenseModel>(context, listen: false)
-                        .addTransaction(newTransaction);
+                        .updateTransaction(widget.index, updatedTransaction);
                     Navigator.pop(context);
                   }
                 },
-                child: const Text('Add Transaction'),
+                child: const Text('Save Changes'),
               ),
             ],
           ),

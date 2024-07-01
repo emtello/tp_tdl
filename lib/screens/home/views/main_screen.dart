@@ -1,11 +1,9 @@
-import 'dart:ui';
-
-import 'package:expenses_app/data/data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:expenses_app/models/expense_model.dart';
+import 'package:expenses_app/screens/add/edit_transactions.dart';
+import 'package:expenses_app/screens/transactions/all_transactions.dart';
 import 'dart:math' as math;
-
-import 'package:flutter/widgets.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -16,49 +14,15 @@ class MainScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        Icon(
-                          CupertinoIcons.person_solid,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hello Username!',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground)),
-                      ],
-                    ),
-                  ],
-                ),
-                IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.bell))
-              ],
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('Welcome!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             const SizedBox(height: 20.0),
             Container(
@@ -73,109 +37,38 @@ class MainScreen extends StatelessWidget {
                       transform: const GradientRotation(math.pi / 2),
                     ),
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.grey.shade300,
-                          offset: const Offset(5, 5))
+                        color: Colors.grey,
+                        offset: Offset(0.0, 5.0),
+                        blurRadius: 5.0,
+                      ),
                     ]),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Your Balance',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(' \$4000.00',
-                        style: TextStyle(
+                child: Consumer<ExpenseModel>(
+                  builder: (context, transactionModel, child) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Your Balance',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          '\$${transactionModel.totalBalance.toStringAsFixed(2)}',
+                          style: const TextStyle(
                             fontSize: 50,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 12),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                          CupertinoIcons.arrowtriangle_up_fill,
-                                          size: 12,
-                                          color: Colors.greenAccent),
-                                    )),
-                                const SizedBox(width: 10),
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Income',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400)),
-                                    Text('\$250000',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                          CupertinoIcons
-                                              .arrowtriangle_down_fill,
-                                          size: 12,
-                                          color: Colors.redAccent),
-                                    )),
-                                const SizedBox(width: 10),
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Expenses',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400)),
-                                    Text('\$60000',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ))
-                  ],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 )),
-            const SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -186,7 +79,14 @@ class MainScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     )),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AllTransactionsScreen(),
+                      ),
+                    );
+                  },
                   child: Text('View All',
                       style: TextStyle(
                         fontSize: 16,
@@ -198,75 +98,39 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                  itemCount: transactionData.length,
-                  itemBuilder: (context, int i) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                color: transactionData[i].color,
-                                                shape: BoxShape.circle)),
-                                        Icon(
-                                          transactionData[i].icon,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(transactionData[i].name,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(transactionData[i].totalAmount,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                    Text(transactionData[i].category,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .outline,
-                                          fontWeight: FontWeight.w400,
-                                        ))
-                                  ],
-                                )
-                              ],
+              child: Consumer<ExpenseModel>(
+                builder: (context, transactionModel, child) {
+                  var recentTransactions =
+                      transactionModel.transactions.take(5).toList();
+                  return ListView.builder(
+                    itemCount: recentTransactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = recentTransactions[index];
+                      return ListTile(
+                        leading: Icon(transaction.category.icon,
+                            color: transaction.category.color),
+                        title: Text(transaction.name),
+                        subtitle: Text(
+                            '${transaction.category.name}\n${transaction.date.year}/${transaction.date.month}/${transaction.date.day}'),
+                        trailing: Text(
+                            '\$${transaction.totalAmount.toStringAsFixed(2)}'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditTransactionScreen(
+                                transaction: transaction,
+                                index: index,
+                              ),
                             ),
-                          )),
-                    );
-                  }),
-            )
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
