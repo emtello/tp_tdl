@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:expenses_app/models/expense_model.dart';
 
 class ExportDataScreen extends StatefulWidget {
+  const ExportDataScreen({super.key});
+
   @override
-  _ExportDataScreenState createState() => _ExportDataScreenState();
+  State<ExportDataScreen> createState() => _ExportDataScreenState();
 }
 
 class _ExportDataScreenState extends State<ExportDataScreen> {
@@ -38,9 +40,9 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: const Text('Export data',
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('Export data',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -54,8 +56,8 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                     width: 100,
                     height: 100,
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     'Export your transactions and use them in Excel, Numbers, Google Spreadsheets etc.',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
@@ -63,16 +65,17 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 32),
-            Text(
+            const SizedBox(height: 32),
+            const Text(
               'From:',
               style: TextStyle(fontSize: 16),
             ),
             InkWell(
               onTap: () => _selectDate(context, true),
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                margin: EdgeInsets.symmetric(vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8),
@@ -82,22 +85,23 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                   children: [
                     Text(
                       DateFormat('dd MMM yyyy').format(fromDate),
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    Icon(Icons.calendar_today),
+                    const Icon(Icons.calendar_today),
                   ],
                 ),
               ),
             ),
-            Text(
+            const Text(
               'To:',
               style: TextStyle(fontSize: 16),
             ),
             InkWell(
               onTap: () => _selectDate(context, false),
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                margin: EdgeInsets.symmetric(vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8),
@@ -107,15 +111,15 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                   children: [
                     Text(
                       DateFormat('dd MMM yyyy').format(toDate),
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    Icon(Icons.calendar_today),
+                    const Icon(Icons.calendar_today),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const SizedBox(height: 16),
             Center(
               child: Column(
                 children: [
@@ -124,19 +128,19 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                       final filteredTransactions =
                           expenseModel.transactions.where((transaction) {
                         return transaction.date.isAfter(
-                                fromDate.subtract(Duration(days: 1))) &&
+                                fromDate.subtract(const Duration(days: 1))) &&
                             transaction.date
-                                .isBefore(toDate.add(Duration(days: 1)));
+                                .isBefore(toDate.add(const Duration(days: 1)));
                       }).toList();
 
                       return Text(
                         'FOUND A TOTAL OF ${filteredTransactions.length} TRANSACTIONS',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       );
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
                       final transactions =
@@ -145,24 +149,24 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                               .where((transaction) {
                         return transaction.date.isAfter(fromDate) &&
                             transaction.date
-                                .isBefore(toDate.add(Duration(days: 1)));
+                                .isBefore(toDate.add(const Duration(days: 1)));
                       }).toList();
 
                       ExpenseModel.exportToCSV(transactions).then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text('Transactions exported to CSV')),
                         );
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text('Failed to export transactions')),
                         );
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                       child: Text('EXPORT', style: TextStyle(fontSize: 16)),
                     ),
                   ),

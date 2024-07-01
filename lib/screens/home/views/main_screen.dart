@@ -101,7 +101,7 @@ class MainScreen extends StatelessWidget {
               child: Consumer<ExpenseModel>(
                 builder: (context, transactionModel, child) {
                   var recentTransactions =
-                      transactionModel.transactions.reversed.take(5).toList();
+                      transactionModel.transactions.take(5).toList();
                   return ListView.builder(
                     itemCount: recentTransactions.length,
                     itemBuilder: (context, index) {
