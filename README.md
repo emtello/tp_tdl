@@ -1,16 +1,5 @@
 # expenses_app
 
-A new Flutter project.
+A repository of the Flutter project made for the TDL 75.31 course, 2024 1° Quarter.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/emtello/tp_tdl/assets/72032383/9f0fc5f5-011d-4154-8fc0-dee767283a05)
